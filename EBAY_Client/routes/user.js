@@ -1,8 +1,11 @@
 var ejs = require("ejs");
 var mysql = require('./mysql');
 var crypto = require('crypto');
-
+var parseString = require('xml2js').parseString;
 var winston = require('winston');
+
+var soap = require('soap');
+var baseURL = "http://localhost:8080/Ebay-SOAP/services";
 
 var myCustomLevels = {
 	    levels: {
@@ -88,28 +91,34 @@ function register(req,res)
 	var json_responses;
 	var tel = req.param("tel");
 	
+	var option = {
+			ignoredNamespaces : true	
+		};
+	 var url = baseURL+"/User?wsdl";
+	  var args = {firstname: firstName, lastname : lastName, email: email, password: password};
+	  console.log("Request:"+firstName);
+	soap.createClient(url,option, function(err, client) {
+	      client.register(args, function(err, result) {
+	    	  console.log("Response from server:"+JSON.stringify(result));
+	    	  if(err){
+	    		  json_responses = {"statusCode" : 401};
+	    			res.send(json_responses);
+	    	  }
+	    	  else if (result.registerReturn)
+	    	  {
+	    		  json_responses = {"statusCode" : 200};
+	    			res.send(json_responses);
+	    	  }
+	    	  else
+	    	  {
+	    		  json_responses = {"statusCode" : 400};
+	    			res.send(json_responses);
+	    	  }
+	      });
+	  });
+	
 	var post  = {first_nm: firstName, last_nm : lastName, email_id: email, pass: password, tel:tel };
-	var insertUser="insert into customer set first_nm =? , last_nm =? , email_id = ?, pass = ?, tel = ?, last_login_ts = CURRENT_TIMESTAMP";
-	mysql.insertqueryWithParams(function(err,results){
-		if(err){
-			if(err.code == "ER_DUP_ENTRY"){
-				json_responses = {"statusCode" : 401};
-				res.send(json_responses);
-			}
-			else{
-				json_responses = {"statusCode" : 402};
-				res.send(json_responses);
-			}
-		}
-		else
-		{
-			req.session.last_ts = "";
-			req.session.user_id = results.insertId;
-			req.session.first_nm = firstName ;
-			json_responses = {"statusCode" : 200};
-			res.send(json_responses);
-		}
-	},insertUser, [firstName, lastName, email, password, tel ]);
+
 }
 
 
@@ -119,34 +128,41 @@ function checkUser(req, res){
 	var password = req.param("password");
 	
 	password = encrypt(password);
-	
+	var option = {
+		ignoredNamespaces : true
+	};
 	var json_responses;
-	var queryString = 'SELECT cust_id, first_nm, DATE_FORMAT(last_login_ts,\'%b %d %Y %h:%i %p\') as date  FROM datahub.customer WHERE email_id = ? and pass = ? ';
+	var url = baseURL+"/User?wsdl";
+	var args = {email: email_id, password: password};
+	soap.createClient(url,option, function(err, client) {
+		client.isUser(args, function(err, result) {
+			if(err){
+				json_responses = {"statusCode" : 401};
+				res.send(json_responses);
+			}
+			else{
+				var xml = result.isUserReturn;
+				parseString(xml, function (err, output) {
+					var results = output.results.result;
+					if (results.length>0){
+						req.session.user_id = results[0].$.cust_id;
+						req.session.first_nm = results[0].$.first_nm;
+						req.session.last_ts = results[0].$.date;
+						var queryString = 'Update datahub.customer set last_login_ts = CURRENT_TIMESTAMP WHERE cust_id = ' + req.session.user_id +'';
+						mysql.updateData(queryString, "");
+						logger.event("user logged in", { user_id: req.session.user_id});
+						json_responses = {"statusCode" : 200};
+						res.send(json_responses);
+					}
+					else{
+						json_responses = {"statusCode" : 400};
+						res.send(json_responses);
+					}
+				});
+			}
 
-	mysql.insertqueryWithParams(function(err,results){
-if(err){
-	json_responses = {"statusCode" : 401};
-	res.send(json_responses);
-}
-else if(results.length>0)
-{	
-	req.session.user_id = results[0].cust_id;
-	req.session.first_nm = results[0].first_nm;
-	req.session.last_ts = results[0].date;
-	var queryString = 'Update datahub.customer set last_login_ts = CURRENT_TIMESTAMP WHERE cust_id = ' + req.session.user_id +'';
-	mysql.updateData(queryString, "");
-	logger.event("user logged in", { user_id: req.session.user_id});
-	json_responses = {"statusCode" : 200};
-	res.send(json_responses);
-
-}
-else if(results.length == 0)
-{	
-		json_responses = {"statusCode" : 402};
-		res.send(json_responses);
-
-}
-},queryString, [email_id, password]);
+		});
+	});
 }
 
 function fetchData(callback,sqlQuery,key){

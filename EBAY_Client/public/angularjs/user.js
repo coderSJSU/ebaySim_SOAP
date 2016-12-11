@@ -75,10 +75,10 @@ user.controller('user', function($scope, $http) {
 				"tel": $scope.tel
 			}
 		}).success(function(data) {
-			if (data.statusCode == 401) {
+			if (data.statusCode == 400) {
 				alert("email already exists");
 			}
-			else if (data.statusCode == 402) {
+			else if (data.statusCode == 401) {
 				alert("Some Error occurred. Please retry later!");
 			}
 			else

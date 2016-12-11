@@ -19,6 +19,8 @@
     "mysql":"*",
     "queue":"*",
     "request":"*",
-    "winston":"*"
+    "winston":"*",
+    "xml2js":"*",
+    "soap":"*"
   }
 }
