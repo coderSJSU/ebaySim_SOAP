@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ebay" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://ebay" xmlns:intf="http://ebay" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://ebay" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="productDetails">
+    <complexType>
+     <sequence>
+      <element name="prod_id" type="xsd:string"/>
+      <element name="customer_id" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="productDetailsResponse">
+    <complexType>
+     <sequence>
+      <element name="productDetailsReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="showProducts">
+    <complexType>
+     <sequence>
+      <element name="cust_id" type="xsd:string"/>
+      <element name="category_id" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="showProductsResponse">
+    <complexType>
+     <sequence>
+      <element name="showProductsReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addProduct">
+    <complexType>
+     <sequence>
+      <element name="label" type="xsd:string"/>
+      <element name="desc" type="xsd:string"/>
+      <element name="quantity" type="xsd:string"/>
+      <element name="brand" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addProductResponse">
+    <complexType>
+     <sequence>
+      <element name="addProductReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="prodDescription">
+    <complexType>
+     <sequence>
+      <element name="type" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="prodDescriptionResponse">
+    <complexType>
+     <sequence>
+      <element name="prodDescriptionReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="showProductsResponse">
+
+      <wsdl:part element="impl:showProductsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="productDetailsResponse">
+
+      <wsdl:part element="impl:productDetailsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="addProductResponse">
+
+      <wsdl:part element="impl:addProductResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="prodDescriptionResponse">
+
+      <wsdl:part element="impl:prodDescriptionResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="addProductRequest">
+
+      <wsdl:part element="impl:addProduct" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="prodDescriptionRequest">
+
+      <wsdl:part element="impl:prodDescription" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="showProductsRequest">
+
+      <wsdl:part element="impl:showProducts" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="productDetailsRequest">
+
+      <wsdl:part element="impl:productDetails" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="Product">
+
+      <wsdl:operation name="productDetails">
+
+         <wsdl:input message="impl:productDetailsRequest" name="productDetailsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:productDetailsResponse" name="productDetailsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="showProducts">
+
+         <wsdl:input message="impl:showProductsRequest" name="showProductsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:showProductsResponse" name="showProductsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addProduct">
+
+         <wsdl:input message="impl:addProductRequest" name="addProductRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:addProductResponse" name="addProductResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="prodDescription">
+
+         <wsdl:input message="impl:prodDescriptionRequest" name="prodDescriptionRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:prodDescriptionResponse" name="prodDescriptionResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ProductSoapBinding" type="impl:Product">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="productDetails">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="productDetailsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="productDetailsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="showProducts">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="showProductsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="showProductsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addProduct">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addProductRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addProductResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="prodDescription">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="prodDescriptionRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="prodDescriptionResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ProductService">
+
+      <wsdl:port binding="impl:ProductSoapBinding" name="Product">
+
+         <wsdlsoap:address location="http://localhost:8080/Ebay-SOAP/services/Product"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

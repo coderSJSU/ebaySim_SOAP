@@ -1,7 +1,10 @@
 var ejs = require("ejs");
 var mysql = require('./mysql');
-
+var parseString = require('xml2js').parseString;
 var winston = require('winston');
+
+var soap = require('soap');
+var baseURL = "http://localhost:8080/Ebay-SOAP/services";
 
 var myCustomLevels = {
 	    levels: {
@@ -20,65 +23,30 @@ function productDetails(req, res){
 	
 	var prod_id = req.query.prod_id;
 	var customer_id = req.session.user_id;
-	var post  = [customer_id, prod_id];
-	var json_responses;
-	
-	if(customer_id == undefined){
-		res.render('signin',function(err, result) {
-			// render on success
-			if (!err) {
-			res.end(result);
+	var option = {
+		ignoredNamespaces : true
+	};
+	var url = baseURL+"/Product?wsdl";
+	var args = {prod_id: prod_id, customer_id : customer_id};
+	soap.createClient(url,option, function(err, client) {
+		client.productDetails(args, function(err, result) {
+			console.log("Response from server:"+JSON.stringify(result));
+			if(err){
+				json_responses = {"statusCode" : 401};
+				res.send(json_responses);
 			}
-			// render or error
-			else {
-			res.end('An error occurred');
-			console.log(err);
+			else
+			{
+				var xml = result.productDetailsReturn;
+				parseString(xml, function (err, output) {
+					var results = output.results.result;
+					json_responses = {"statusCode" : 400};
+					res.send(json_responses);
+				});
 			}
-			});
-	}
-	else{
-	
-	var queryString ='select p.prod_id , p.label, p.description,(select c.desc from conditions c where c.conditionId = p.condition)  conditions, '+
-	'(select b.label from brand b where b.brand_id = p.brand)  brand, p.is_fixed, p.is_auction,' +
- ' (select max(b2.bid_amount) from datahub.bid b2 where b2.product_id = p.prod_id )  max, ' +
- ' (case when p.ship_price is null then 0 else  p.ship_price end ) ship_price , (case when p.price is null then 0 else  p.price end ) price, '+
- ' (select count(b2.bid_id) from datahub.bid b2 where b2.product_id = p.prod_id group by b2.product_id) as count, '+ 
- ' case when exists (select count(*) from datahub.bid b3  where b3.product_id = p.prod_id and b3.customer_id = '  + customer_id + ' group by b3.product_id) '+
- ' then 1 '+
- ' else 0    '+
- ' end as alreadyBid, DATEDIFF(CURDATE(), p.add_ts) as days, '+
- ' (case when (select customer_id FROM datahub.bid where bid_amount = (select max(b.bid_amount) from bid b where b.product_id = ?)) = ? '+
- ' then 1 else 0 end) as max_bidder ' +
- ' from datahub.product p where p.prod_id = ? ' ;
-	
-	mysql.insertqueryWithParams(function(err,results){
-if(err){
-	json_responses = {"statusCode" : 401};
-	res.send(json_responses);
-}
-else if(results.length>0)
-{
-	logger.event("product checked", { user_id: customer_id, product:prod_id, description:results[0].description, brand: results[0].brand, label: results[0].label });
-	ejs.renderFile('./views/productDetails.ejs', {  username:req.session.first_nm, data:results },function(err, result) {
-		if (!err) {
-			res.end(result);
-			}
-			else {
-			res.end('An error occurred');
-			console.log(err);
-			}
-			});
-	
-}
-else if(results.length == 0)
-{	
-		json_responses = {"statusCode" : 402};
-		res.send(json_responses);
+		});
+	});
 
-}
-},queryString, [prod_id,customer_id, prod_id]);
-	
-	}
 }
 
 
@@ -89,29 +57,48 @@ function showProducts(req, res){
 	
 	var cat_id = req.query.cat;
 	var json_responses;
-	var queryString = 'select prod_id, is_auction, is_fixed, quantity,brand as brand_id, DATEDIFF(CURDATE(), p.add_ts) as days, (select b.label from brand b where b.brand_id = p.brand)  brand, label, description, price, (select c.desc from conditions c where c.conditionId = p.condition)  conditions from product p where p.quantity > 0 and p.seller_id <> ' + cust_id +' and p.category_id = ' +cat_id+ '';
-	
-	mysql.fetchData(function(err,results){
-if(err){
-	json_responses = {"statusCode" : 401};
-	res.send(json_responses);
-}
-else 
-{
-	logger.event("category checked", { user_id: cust_id, category:cat_id});
-	ejs.renderFile('./views/products.ejs', {  username:req.session.first_nm, data:results, title:'EBay' },function(err, result) {
-		if (!err) {
-			res.end(result);
+	var option = {
+		ignoredNamespaces : true
+	};
+	var url = baseURL+"/Product?wsdl";
+	var args = {cust_id: cust_id, category_id : cat_id};
+	soap.createClient(url,option, function(err, client) {
+		client.showProducts(args, function(err, result) {
+			console.log("Response from server:"+JSON.stringify(result));
+			if(err){
+				json_responses = {"statusCode" : 401};
+				res.send(json_responses);
 			}
-			else {
-			res.end('An error occurred');
-			console.log(err);
-			}
-			});
-	
-}
+			else
+			{
+				var xml = result.showProductsReturn;
+				parseString(xml, function (err, output) {
+					var results = output.results.result;
 
-},queryString,cust_id);
+					ejs.renderFile('./views/products.ejs', {  username:req.session.first_nm, data:"", title:'EBay' },function(err, result) {
+						if (!err) {
+							res.end(result);
+						}
+						else {
+							res.end('An error occurred');
+							console.log(err);
+						}
+					});
+				});
+				ejs.renderFile('./views/products.ejs', {  username:req.session.first_nm, data:"", title:'EBay' },function(err, result) {
+					if (!err) {
+						res.end(result);
+					}
+					else {
+						res.end('An error occurred');
+						console.log(err);
+					}
+				});
+			}
+		});
+	});
+	
+
 }
 
 function prodDescription(req, res){
@@ -121,43 +108,48 @@ function prodDescription(req, res){
 	var type = req.query.type;
 	
 	var json_responses ;
-	var queryString = 'select * from brand where category_id = '+type+'';
-	req.session.cat_id = type;
-	mysql.fetchData(function(err,results){
-if(err){
-	json_responses = {"statusCode" : 401};
-	res.send(json_responses);
-}
-else
-{
-	var data = results;
-	var conditions;
-	var conditionsQuery = 'select * from conditions';
-	
-	mysql.fetchData(function(err,results){
-if(err){
-	json_responses = {"statusCode" : 401};
-	res.send(json_responses);
-	res.end('An error occurred');
-}
-else
-{
-	conditions = results;
-	ejs.renderFile('./views/sellProduct.ejs', {  username:req.session.first_nm, data:data, conditions:conditions },function(err, result) {
-		if (!err) {
-			res.end(result);
+	var json_responses;
+	var option = {
+		ignoredNamespaces : true
+	};
+	var url = baseURL+"/Product?wsdl";
+	var args = {cust_id: cust_id, category_id : cat_id};
+	soap.createClient(url,option, function(err, client) {
+		client.prodDescription(args, function(err, result) {
+			console.log("Response from server:"+JSON.stringify(result));
+			if(err){
+				json_responses = {"statusCode" : 401};
+				res.send(json_responses);
 			}
-			else {
-			res.end('An error occurred');
-			console.log(err);
+			else
+			{
+				var xml = result.prodDescriptionReturn;
+				parseString(xml, function (err, output) {
+					var results = output.results.result;
+
+					ejs.renderFile('./views/sellProduct.ejs', {  username:req.session.first_nm },function(err, result) {
+						if (!err) {
+							res.end(result);
+						}
+						else {
+							res.end('An error occurred');
+							console.log(err);
+						}
+					});
+				});
+				ejs.renderFile('./views/sellProduct.ejs', {  username:req.session.first_nm},function(err, result) {
+					if (!err) {
+						res.end(result);
+					}
+					else {
+						res.end('An error occurred');
+						console.log(err);
+					}
+				});
 			}
-			});
-}
-},conditionsQuery,'');
-	
-	
-}
-},queryString,'');
+		});
+	});
+
 }
 
 
@@ -193,30 +185,35 @@ function addProduct(req,res)
 	if(is_auction == '0')
 		startingPrice = '0';
 	var category_id = req.session.cat_id;
-	var post  = {label: label, description : desc, brand: brand, quantity: quantity, price:price,seller_id:cust_id, condition: condition,is_auction:is_auction,is_fixed:is_fixed,start_price:startingPrice,category_id:category_id, ship_price: ship_price };
-	var insertproduct="insert into datahub.product set ? ";
-mysql.insertqueryWithParams(function(err,results){
-if(err){
-throw err;
-}
-else
-{
-	var json_responses;
-	
-	if(err){
-		json_responses = {"statusCode" : 401};
-		res.send(json_responses);
-	}
-	else
-	{	
-		logger.event("product for sale", { user_id: cust_id, label:label, description:desc, brand:brand});
-		json_responses = {"statusCode" : 200};
-		res.send(json_responses);
+
+		var option = {
+			ignoredNamespaces : true
+		};
+		var url = baseURL+"/Product?wsdl";
+		var args = {label: label, description : desc, brand: brand, quantity: quantity};
+		soap.createClient(url,option, function(err, client) {
+			client.addProduct(args, function(err, result) {
+				console.log("Response from server:"+JSON.stringify(result));
+				if(err){
+					json_responses = {"statusCode" : 401};
+					res.send(json_responses);
+				}
+				else if (result.addProductReturn)
+				{
+					logger.event("product for sale", { user_id: cust_id, label:label, description:desc, brand:brand});
+					json_responses = {"statusCode" : 200};
+					res.send(json_responses);
+				}
+				else
+				{
+					logger.event("product for sale", { user_id: cust_id, label:label, description:desc, brand:brand});
+					json_responses = {"statusCode" : 200};
+					res.send(json_responses);
+				}
+			});
+		});
 
 	}
-}
-},insertproduct, post);
-}
 }
 
 
