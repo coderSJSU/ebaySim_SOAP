@@ -7,6 +7,7 @@ var winston = require('winston');
 var soap = require('soap');
 var baseURL = "http://localhost:8080/Ebay-SOAP/services";
 
+
 var myCustomLevels = {
 	    levels: {
 	      event: 0,
@@ -116,8 +117,6 @@ function register(req,res)
 	    	  }
 	      });
 	  });
-	
-	var post  = {first_nm: firstName, last_nm : lastName, email_id: email, pass: password, tel:tel };
 
 }
 
@@ -136,6 +135,7 @@ function checkUser(req, res){
 	var args = {email: email_id, password: password};
 	soap.createClient(url,option, function(err, client) {
 		client.isUser(args, function(err, result) {
+			console.log("Response from server:"+JSON.stringify(result));
 			if(err){
 				json_responses = {"statusCode" : 401};
 				res.send(json_responses);

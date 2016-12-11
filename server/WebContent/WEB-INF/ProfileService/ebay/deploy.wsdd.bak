@@ -1,0 +1,44 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from ProfileService WSDL service -->
+
+  <service name="Profile" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://ebay"/>
+      <parameter name="wsdlServiceElement" value="ProfileService"/>
+      <parameter name="schemaQualified" value="http://ebay"/>
+      <parameter name="wsdlServicePort" value="Profile"/>
+      <parameter name="className" value="ebay.ProfileSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="Profile"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getUserInfo" qname="operNS:getUserInfo" xmlns:operNS="http://ebay" returnQName="retNS:getUserInfoReturn" xmlns:retNS="http://ebay" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:cust_id" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="saveProfile" qname="operNS:saveProfile" xmlns:operNS="http://ebay" returnQName="retNS:saveProfileReturn" xmlns:retNS="http://ebay" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:cust_id" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:day" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:year" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:address" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:city" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:country" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:month" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="getItemsForSale" qname="operNS:getItemsForSale" xmlns:operNS="http://ebay" returnQName="retNS:getItemsForSaleReturn" xmlns:retNS="http://ebay" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:cust_id" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="getItemsBought" qname="operNS:getItemsBought" xmlns:operNS="http://ebay" returnQName="retNS:getItemsBoughtReturn" xmlns:retNS="http://ebay" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:cust_id" xmlns:pns="http://ebay" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="saveProfile getItemsForSale getUserInfo getItemsBought"/>
+
+  </service>
+</deployment>

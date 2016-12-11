@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ebay" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://ebay" xmlns:intf="http://ebay" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://ebay" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="getUserInfo">
+    <complexType>
+     <sequence>
+      <element name="cust_id" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getUserInfoResponse">
+    <complexType>
+     <sequence>
+      <element name="getUserInfoReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="saveProfile">
+    <complexType>
+     <sequence>
+      <element name="cust_id" type="xsd:string"/>
+      <element name="day" type="xsd:string"/>
+      <element name="year" type="xsd:string"/>
+      <element name="address" type="xsd:string"/>
+      <element name="city" type="xsd:string"/>
+      <element name="country" type="xsd:string"/>
+      <element name="month" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="saveProfileResponse">
+    <complexType>
+     <sequence>
+      <element name="saveProfileReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getItemsForSale">
+    <complexType>
+     <sequence>
+      <element name="cust_id" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getItemsForSaleResponse">
+    <complexType>
+     <sequence>
+      <element name="getItemsForSaleReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getItemsBought">
+    <complexType>
+     <sequence>
+      <element name="cust_id" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getItemsBoughtResponse">
+    <complexType>
+     <sequence>
+      <element name="getItemsBoughtReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getItemsBoughtResponse">
+
+      <wsdl:part element="impl:getItemsBoughtResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="saveProfileRequest">
+
+      <wsdl:part element="impl:saveProfile" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getItemsForSaleResponse">
+
+      <wsdl:part element="impl:getItemsForSaleResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="saveProfileResponse">
+
+      <wsdl:part element="impl:saveProfileResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getItemsForSaleRequest">
+
+      <wsdl:part element="impl:getItemsForSale" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getUserInfoRequest">
+
+      <wsdl:part element="impl:getUserInfo" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getUserInfoResponse">
+
+      <wsdl:part element="impl:getUserInfoResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getItemsBoughtRequest">
+
+      <wsdl:part element="impl:getItemsBought" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="Profile">
+
+      <wsdl:operation name="getUserInfo">
+
+         <wsdl:input message="impl:getUserInfoRequest" name="getUserInfoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getUserInfoResponse" name="getUserInfoResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="saveProfile">
+
+         <wsdl:input message="impl:saveProfileRequest" name="saveProfileRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:saveProfileResponse" name="saveProfileResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getItemsForSale">
+
+         <wsdl:input message="impl:getItemsForSaleRequest" name="getItemsForSaleRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getItemsForSaleResponse" name="getItemsForSaleResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getItemsBought">
+
+         <wsdl:input message="impl:getItemsBoughtRequest" name="getItemsBoughtRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getItemsBoughtResponse" name="getItemsBoughtResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ProfileSoapBinding" type="impl:Profile">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getUserInfo">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getUserInfoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getUserInfoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="saveProfile">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="saveProfileRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="saveProfileResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getItemsForSale">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getItemsForSaleRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getItemsForSaleResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getItemsBought">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getItemsBoughtRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getItemsBoughtResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ProfileService">
+
+      <wsdl:port binding="impl:ProfileSoapBinding" name="Profile">
+
+         <wsdlsoap:address location="http://localhost:8080/Ebay-SOAP/services/Profile"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
