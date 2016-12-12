@@ -1,5 +1,4 @@
 var ejs = require("ejs");
-var mysql = require('./mysql');
 var parseString = require('xml2js').parseString;
 var winston = require('winston');
 
@@ -22,7 +21,7 @@ var logger = new (winston.Logger)({
 function productDetails(req, res){
 	
 	var prod_id = req.query.prod_id;
-	var customer_id = req.session.user_id;
+	var customer_id = req.query.user_id;
 	var option = {
 		ignoredNamespaces : true
 	};
@@ -53,8 +52,10 @@ function productDetails(req, res){
 
 function showProducts(req, res){
 	
-	var cust_id = req.session.user_id;
-	
+	//var cust_id = req.session.user_id;
+
+	var cust_id = req.query.user_id;
+	//var cust_id = req.session.user_id;
 	var cat_id = req.query.cat;
 	var json_responses;
 	var option = {
@@ -104,7 +105,6 @@ function showProducts(req, res){
 function prodDescription(req, res){
 	
 	var cust_id = req.session.user_id;
-	var cust_id = 1;
 	var type = req.query.type;
 	
 	var json_responses ;

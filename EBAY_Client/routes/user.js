@@ -1,5 +1,4 @@
 var ejs = require("ejs");
-var mysql = require('./mysql');
 var crypto = require('crypto');
 var parseString = require('xml2js').parseString;
 var winston = require('winston');
@@ -108,6 +107,7 @@ function register(req,res)
 	    	  else if (result.registerReturn)
 	    	  {
 	    		  json_responses = {"statusCode" : 200};
+				  req.session.first_name = firstName;
 	    			res.send(json_responses);
 	    	  }
 	    	  else
@@ -148,8 +148,6 @@ function checkUser(req, res){
 						req.session.user_id = results[0].$.cust_id;
 						req.session.first_nm = results[0].$.first_nm;
 						req.session.last_ts = results[0].$.date;
-						var queryString = 'Update datahub.customer set last_login_ts = CURRENT_TIMESTAMP WHERE cust_id = ' + req.session.user_id +'';
-						mysql.updateData(queryString, "");
 						logger.event("user logged in", { user_id: req.session.user_id});
 						json_responses = {"statusCode" : 200};
 						res.send(json_responses);
@@ -166,18 +164,7 @@ function checkUser(req, res){
 }
 
 function fetchData(callback,sqlQuery,key){
-	var connection=mysql.getConnection();
-	connection.query(sqlQuery, [key], function(err, rows, fields) {
-	if(err){
-	console.log("ERROR: " + err.message);
-	}
-	else
-	{ // return err or result
-	callback(err, rows);
-	}
-	});
-	console.log("\nConnection closed..");
-	connection.end();
+
 	}
 
 function encrypt(text){

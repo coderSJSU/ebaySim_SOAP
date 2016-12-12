@@ -30,7 +30,7 @@
 
 
 <body ng-controller="prodRedirect" ng-app="prodRedirect" ng-init="is_auction = 1; is_fixed =0;" style="background-color: white; background-image: none;">
-    <div class="brand">Ebay</div>
+<div class="brand"><img src = "/img/ebay.png" style="clip: rect(47px, 118px, 95px, 0px)" width="150" height="100"></div>
     <div class="container" style="padding: 20px">
     
 	    <div class="panel" style="border:1px solid #ddd" >
@@ -46,9 +46,9 @@
 				<div class="col-sm-4">	
 					<div class = "dropdown" style="width: 100px">
 									<select id="skill_category" style="width: 200px" class="btn btn-primary dropdown-toggle" ng-model="selectedBrand" required>
-										  <% data.forEach(function(item, index){ %>
-											   <option value="<%=item.brand_id%>"><%=item.label%></option>
-										  <% });%>
+
+											   <option value="Mercedes">Mercedes</option>
+
  									</select> 
 					</div>
 				</div>
@@ -68,9 +68,10 @@
 				<div class="col-sm-4">	
 					<div class = "dropdown" >
 										<select id="conditions" style="width: 200px" class="btn btn-primary dropdown-toggle" ng-model="selectedCondition" >
-											  <% conditions.forEach(function(item, index){ %>
-												   <option value="<%=item.conditionId%>"><%=item.desc%></option>
-											  <% });%>
+
+												   <option value="New">New</option>
+											<option value="Refurbished">Refurbished</option>
+
 	 									</select> 
 	 									</div>
 				</div>

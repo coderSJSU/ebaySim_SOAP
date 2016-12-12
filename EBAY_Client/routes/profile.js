@@ -1,5 +1,4 @@
 var ejs = require("ejs");
-var mysql = require('./mysql');
 
 var winston = require('winston');
 var soap = require('soap');

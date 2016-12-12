@@ -7,8 +7,8 @@
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
-  <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
   <ns1:parameter name="sendXsiTypes" value="true"/>
+  <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
   <ns1:requestFlow>
    <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
     <ns1:parameter name="scope" value="session"/>
@@ -71,11 +71,11 @@
    <ns1:parameter qname="ns6:type" type="xsd:string"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="prodDescription showProducts addProduct productDetails"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="Product"/>
-  <ns1:parameter name="className" value="ebay.Product"/>
-  <ns1:parameter name="wsdlServicePort" value="Product"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="schemaQualified" value="http://ebay"/>
+  <ns1:parameter name="wsdlServicePort" value="Product"/>
+  <ns1:parameter name="className" value="ebay.Product"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://ebay"/>
   <ns1:parameter name="wsdlServiceElement" value="ProductService"/>
  </ns1:service>
@@ -115,11 +115,11 @@
    <ns1:parameter qname="ns15:quantity" type="xsd:string"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="removeFromCart sold getCartAmount emptyCart addBid addToCart getProductQuanity getCart getAmount"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="Trans"/>
-  <ns1:parameter name="className" value="ebay.Trans"/>
-  <ns1:parameter name="wsdlServicePort" value="Trans"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="schemaQualified" value="http://ebay"/>
+  <ns1:parameter name="wsdlServicePort" value="Trans"/>
+  <ns1:parameter name="className" value="ebay.Trans"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://ebay"/>
   <ns1:parameter name="wsdlServiceElement" value="TransService"/>
  </ns1:service>
@@ -143,11 +143,11 @@
    <ns1:parameter qname="ns19:cust_id" type="xsd:string"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="saveProfile getItemsForSale getUserInfo getItemsBought"/>
-  <ns1:parameter name="wsdlPortType" value="Profile"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="schemaQualified" value="http://ebay"/>
-  <ns1:parameter name="wsdlServicePort" value="Profile"/>
+  <ns1:parameter name="wsdlPortType" value="Profile"/>
   <ns1:parameter name="className" value="ebay.Profile"/>
+  <ns1:parameter name="wsdlServicePort" value="Profile"/>
+  <ns1:parameter name="schemaQualified" value="http://ebay"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://ebay"/>
   <ns1:parameter name="wsdlServiceElement" value="ProfileService"/>
  </ns1:service>
