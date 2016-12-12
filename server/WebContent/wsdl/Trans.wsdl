@@ -18,6 +18,38 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
+   <element name="addToCart">
+    <complexType>
+     <sequence>
+      <element name="product_id" type="xsd:string"/>
+      <element name="user_id" type="xsd:string"/>
+      <element name="quantity" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addToCartResponse">
+    <complexType>
+     <sequence>
+      <element name="addToCartReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="sold">
+    <complexType>
+     <sequence>
+      <element name="customer_id" type="xsd:string"/>
+      <element name="product_id" type="xsd:string"/>
+      <element name="quantity" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="soldResponse">
+    <complexType>
+     <sequence>
+      <element name="soldReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="getCart">
     <complexType>
      <sequence>
@@ -29,6 +61,22 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="getCartReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addBid">
+    <complexType>
+     <sequence>
+      <element name="bid_amount" type="xsd:string"/>
+      <element name="product_id" type="xsd:string"/>
+      <element name="customer_id" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addBidResponse">
+    <complexType>
+     <sequence>
+      <element name="addBidReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -61,38 +109,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="addBid">
-    <complexType>
-     <sequence>
-      <element name="bid_amount" type="xsd:string"/>
-      <element name="product_id" type="xsd:string"/>
-      <element name="customer_id" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="addBidResponse">
-    <complexType>
-     <sequence>
-      <element name="addBidReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="addToCart">
-    <complexType>
-     <sequence>
-      <element name="product_id" type="xsd:string"/>
-      <element name="user_id" type="xsd:string"/>
-      <element name="quantity" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="addToCartResponse">
-    <complexType>
-     <sequence>
-      <element name="addToCartReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
    <element name="emptyCart">
     <complexType>
      <sequence>
@@ -118,22 +134,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="getAmountReturn" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="sold">
-    <complexType>
-     <sequence>
-      <element name="customer_id" type="xsd:string"/>
-      <element name="product_id" type="xsd:string"/>
-      <element name="quantity" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="soldResponse">
-    <complexType>
-     <sequence>
-      <element name="soldReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -212,17 +212,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="removeFromCartRequest">
+   <wsdl:message name="soldRequest">
 
-      <wsdl:part element="impl:removeFromCart" name="parameters">
+      <wsdl:part element="impl:sold" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="soldRequest">
+   <wsdl:message name="removeFromCartRequest">
 
-      <wsdl:part element="impl:sold" name="parameters">
+      <wsdl:part element="impl:removeFromCart" name="parameters">
 
       </wsdl:part>
 
@@ -298,6 +298,30 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="addToCart">
+
+         <wsdl:input message="impl:addToCartRequest" name="addToCartRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:addToCartResponse" name="addToCartResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="sold">
+
+         <wsdl:input message="impl:soldRequest" name="soldRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:soldResponse" name="soldResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="getCart">
 
          <wsdl:input message="impl:getCartRequest" name="getCartRequest">
@@ -305,6 +329,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:getCartResponse" name="getCartResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addBid">
+
+         <wsdl:input message="impl:addBidRequest" name="addBidRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:addBidResponse" name="addBidResponse">
 
        </wsdl:output>
 
@@ -334,30 +370,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="addBid">
-
-         <wsdl:input message="impl:addBidRequest" name="addBidRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:addBidResponse" name="addBidResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="addToCart">
-
-         <wsdl:input message="impl:addToCartRequest" name="addToCartRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:addToCartResponse" name="addToCartResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="emptyCart">
 
          <wsdl:input message="impl:emptyCartRequest" name="emptyCartRequest">
@@ -377,18 +389,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:getAmountResponse" name="getAmountResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="sold">
-
-         <wsdl:input message="impl:soldRequest" name="soldRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:soldResponse" name="soldResponse">
 
        </wsdl:output>
 
@@ -418,6 +418,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="addToCart">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addToCartRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addToCartResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="sold">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="soldRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="soldResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="getCart">
 
          <wsdlsoap:operation soapAction=""/>
@@ -429,6 +465,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getCartResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addBid">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addBidRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addBidResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -472,42 +526,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="addBid">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="addBidRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="addBidResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="addToCart">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="addToCartRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="addToCartResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="emptyCart">
 
          <wsdlsoap:operation soapAction=""/>
@@ -537,24 +555,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getAmountResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="sold">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="soldRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="soldResponse">
 
             <wsdlsoap:body use="literal"/>
 

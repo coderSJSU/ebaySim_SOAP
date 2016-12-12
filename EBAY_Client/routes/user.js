@@ -133,34 +133,40 @@ function checkUser(req, res){
 	var json_responses;
 	var url = baseURL+"/User?wsdl";
 	var args = {email: email_id, password: password};
-	soap.createClient(url,option, function(err, client) {
-		client.isUser(args, function(err, result) {
-			console.log("Response from server:"+JSON.stringify(result));
-			if(err){
-				json_responses = {"statusCode" : 401};
-				res.send(json_responses);
-			}
-			else{
-				var xml = result.isUserReturn;
-				parseString(xml, function (err, output) {
-					var results = output.results.result;
-					if (results.length>0){
-						req.session.user_id = results[0].$.cust_id;
-						req.session.first_nm = results[0].$.first_nm;
-						req.session.last_ts = results[0].$.date;
-						logger.event("user logged in", { user_id: req.session.user_id});
-						json_responses = {"statusCode" : 200};
-						res.send(json_responses);
-					}
-					else{
-						json_responses = {"statusCode" : 400};
-						res.send(json_responses);
-					}
-				});
-			}
+	try {
+		soap.createClient(url, option, function (err, client) {
+			client.isUser(args, function (err, result) {
+				console.log("Response from server:" + JSON.stringify(result));
+				if (err) {
+					json_responses = {"statusCode": 401};
+					res.send(json_responses);
+				}
+				else {
+					var xml = result.isUserReturn;
+					parseString(xml, function (err, output) {
+						var results = output.results.result;
+						if (results.length > 0) {
+							req.session.user_id = results[0].$.cust_id;
+							req.session.first_nm = results[0].$.first_nm;
+							req.session.last_ts = results[0].$.date;
+							logger.event("user logged in", {user_id: req.session.user_id});
+							json_responses = {"statusCode": 200};
+							res.send(json_responses);
+						}
+						else {
+							json_responses = {"statusCode": 400};
+							res.send(json_responses);
+						}
+					});
+				}
 
+			});
 		});
-	});
+	}
+	catch(err){
+		json_responses = {"statusCode": 500};
+		res.send(json_responses);
+	}
 }
 
 function fetchData(callback,sqlQuery,key){

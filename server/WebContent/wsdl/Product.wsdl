@@ -4,6 +4,23 @@
 Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://ebay" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="addProduct">
+    <complexType>
+     <sequence>
+      <element name="label" type="xsd:string"/>
+      <element name="desc" type="xsd:string"/>
+      <element name="quantity" type="xsd:string"/>
+      <element name="brand" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="addProductResponse">
+    <complexType>
+     <sequence>
+      <element name="addProductReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
    <element name="productDetails">
     <complexType>
      <sequence>
@@ -16,6 +33,20 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="productDetailsReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="prodDescription">
+    <complexType>
+     <sequence>
+      <element name="type" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="prodDescriptionResponse">
+    <complexType>
+     <sequence>
+      <element name="prodDescriptionReturn" type="xsd:string"/>
      </sequence>
     </complexType>
    </element>
@@ -34,37 +65,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="addProduct">
-    <complexType>
-     <sequence>
-      <element name="label" type="xsd:string"/>
-      <element name="desc" type="xsd:string"/>
-      <element name="quantity" type="xsd:string"/>
-      <element name="brand" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="addProductResponse">
-    <complexType>
-     <sequence>
-      <element name="addProductReturn" type="xsd:boolean"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="prodDescription">
-    <complexType>
-     <sequence>
-      <element name="type" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="prodDescriptionResponse">
-    <complexType>
-     <sequence>
-      <element name="prodDescriptionReturn" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
   </schema>
  </wsdl:types>
 
@@ -76,17 +76,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="productDetailsResponse">
+   <wsdl:message name="addProductResponse">
 
-      <wsdl:part element="impl:productDetailsResponse" name="parameters">
+      <wsdl:part element="impl:addProductResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="addProductResponse">
+   <wsdl:message name="productDetailsResponse">
 
-      <wsdl:part element="impl:addProductResponse" name="parameters">
+      <wsdl:part element="impl:productDetailsResponse" name="parameters">
 
       </wsdl:part>
 
@@ -134,30 +134,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    <wsdl:portType name="Product">
 
-      <wsdl:operation name="productDetails">
-
-         <wsdl:input message="impl:productDetailsRequest" name="productDetailsRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:productDetailsResponse" name="productDetailsResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="showProducts">
-
-         <wsdl:input message="impl:showProductsRequest" name="showProductsRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:showProductsResponse" name="showProductsResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="addProduct">
 
          <wsdl:input message="impl:addProductRequest" name="addProductRequest">
@@ -165,6 +141,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:addProductResponse" name="addProductResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="productDetails">
+
+         <wsdl:input message="impl:productDetailsRequest" name="productDetailsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:productDetailsResponse" name="productDetailsResponse">
 
        </wsdl:output>
 
@@ -182,47 +170,23 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="showProducts">
+
+         <wsdl:input message="impl:showProductsRequest" name="showProductsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:showProductsResponse" name="showProductsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
    </wsdl:portType>
 
    <wsdl:binding name="ProductSoapBinding" type="impl:Product">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-
-      <wsdl:operation name="productDetails">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="productDetailsRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="productDetailsResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="showProducts">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="showProductsRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="showProductsResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
 
       <wsdl:operation name="addProduct">
 
@@ -242,6 +206,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="productDetails">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="productDetailsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="productDetailsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="prodDescription">
 
          <wsdlsoap:operation soapAction=""/>
@@ -253,6 +235,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="prodDescriptionResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="showProducts">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="showProductsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="showProductsResponse">
 
             <wsdlsoap:body use="literal"/>
 

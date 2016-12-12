@@ -7,8 +7,8 @@
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
-  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:requestFlow>
    <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
     <ns1:parameter name="scope" value="session"/>
@@ -53,22 +53,22 @@
   <ns1:parameter name="className" value="org.apache.axis.Version"/>
  </ns1:service>
  <ns1:service name="Product" provider="java:RPC" style="wrapped" use="literal">
-  <ns1:operation name="productDetails" qname="ns3:productDetails" returnQName="ns3:productDetailsReturn" returnType="xsd:string" soapAction="" xmlns:ns3="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns3:prod_id" type="xsd:string"/>
-   <ns1:parameter qname="ns3:customer_id" type="xsd:string"/>
+  <ns1:operation name="addProduct" qname="ns3:addProduct" returnQName="ns3:addProductReturn" returnType="xsd:boolean" soapAction="" xmlns:ns3="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns3:label" type="xsd:string"/>
+   <ns1:parameter qname="ns3:desc" type="xsd:string"/>
+   <ns1:parameter qname="ns3:quantity" type="xsd:string"/>
+   <ns1:parameter qname="ns3:brand" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="showProducts" qname="ns4:showProducts" returnQName="ns4:showProductsReturn" returnType="xsd:string" soapAction="" xmlns:ns4="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns4:cust_id" type="xsd:string"/>
-   <ns1:parameter qname="ns4:category_id" type="xsd:string"/>
+  <ns1:operation name="productDetails" qname="ns4:productDetails" returnQName="ns4:productDetailsReturn" returnType="xsd:string" soapAction="" xmlns:ns4="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns4:prod_id" type="xsd:string"/>
+   <ns1:parameter qname="ns4:customer_id" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="addProduct" qname="ns5:addProduct" returnQName="ns5:addProductReturn" returnType="xsd:boolean" soapAction="" xmlns:ns5="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns5:label" type="xsd:string"/>
-   <ns1:parameter qname="ns5:desc" type="xsd:string"/>
-   <ns1:parameter qname="ns5:quantity" type="xsd:string"/>
-   <ns1:parameter qname="ns5:brand" type="xsd:string"/>
+  <ns1:operation name="prodDescription" qname="ns5:prodDescription" returnQName="ns5:prodDescriptionReturn" returnType="xsd:string" soapAction="" xmlns:ns5="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns5:type" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="prodDescription" qname="ns6:prodDescription" returnQName="ns6:prodDescriptionReturn" returnType="xsd:string" soapAction="" xmlns:ns6="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns6:type" type="xsd:string"/>
+  <ns1:operation name="showProducts" qname="ns6:showProducts" returnQName="ns6:showProductsReturn" returnType="xsd:string" soapAction="" xmlns:ns6="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns6:cust_id" type="xsd:string"/>
+   <ns1:parameter qname="ns6:category_id" type="xsd:string"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="prodDescription showProducts addProduct productDetails"/>
   <ns1:parameter name="wsdlPortType" value="Product"/>
@@ -83,38 +83,38 @@
   <ns1:operation name="getProductQuanity" qname="ns7:getProductQuanity" returnQName="ns7:getProductQuanityReturn" returnType="xsd:string" soapAction="" xmlns:ns7="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns7:prod_id" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="getCart" qname="ns8:getCart" returnQName="ns8:getCartReturn" returnType="xsd:string" soapAction="" xmlns:ns8="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns8:cust_id" type="xsd:string"/>
+  <ns1:operation name="addToCart" qname="ns8:addToCart" returnQName="ns8:addToCartReturn" returnType="xsd:boolean" soapAction="" xmlns:ns8="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns8:product_id" type="xsd:string"/>
+   <ns1:parameter qname="ns8:user_id" type="xsd:string"/>
+   <ns1:parameter qname="ns8:quantity" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="getCartAmount" qname="ns9:getCartAmount" returnQName="ns9:getCartAmountReturn" returnType="xsd:string" soapAction="" xmlns:ns9="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns9:cust_id" type="xsd:string"/>
+  <ns1:operation name="sold" qname="ns9:sold" returnQName="ns9:soldReturn" returnType="xsd:boolean" soapAction="" xmlns:ns9="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns9:customer_id" type="xsd:string"/>
+   <ns1:parameter qname="ns9:product_id" type="xsd:string"/>
+   <ns1:parameter qname="ns9:quantity" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="removeFromCart" qname="ns10:removeFromCart" returnQName="ns10:removeFromCartReturn" returnType="xsd:boolean" soapAction="" xmlns:ns10="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ns1:operation name="getCart" qname="ns10:getCart" returnQName="ns10:getCartReturn" returnType="xsd:string" soapAction="" xmlns:ns10="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns10:cust_id" type="xsd:string"/>
-   <ns1:parameter qname="ns10:prod_id" type="xsd:string"/>
   </ns1:operation>
   <ns1:operation name="addBid" qname="ns11:addBid" returnQName="ns11:addBidReturn" returnType="xsd:boolean" soapAction="" xmlns:ns11="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns11:bid_amount" type="xsd:string"/>
    <ns1:parameter qname="ns11:product_id" type="xsd:string"/>
    <ns1:parameter qname="ns11:customer_id" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="addToCart" qname="ns12:addToCart" returnQName="ns12:addToCartReturn" returnType="xsd:boolean" soapAction="" xmlns:ns12="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns12:product_id" type="xsd:string"/>
-   <ns1:parameter qname="ns12:user_id" type="xsd:string"/>
-   <ns1:parameter qname="ns12:quantity" type="xsd:string"/>
+  <ns1:operation name="getCartAmount" qname="ns12:getCartAmount" returnQName="ns12:getCartAmountReturn" returnType="xsd:string" soapAction="" xmlns:ns12="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns12:cust_id" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="emptyCart" qname="ns13:emptyCart" returnQName="ns13:emptyCartReturn" returnType="xsd:boolean" soapAction="" xmlns:ns13="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ns1:operation name="removeFromCart" qname="ns13:removeFromCart" returnQName="ns13:removeFromCartReturn" returnType="xsd:boolean" soapAction="" xmlns:ns13="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter qname="ns13:cust_id" type="xsd:string"/>
+   <ns1:parameter qname="ns13:prod_id" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="getAmount" qname="ns14:getAmount" returnQName="ns14:getAmountReturn" returnType="xsd:string" soapAction="" xmlns:ns14="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns14:prod_id" type="xsd:string"/>
+  <ns1:operation name="emptyCart" qname="ns14:emptyCart" returnQName="ns14:emptyCartReturn" returnType="xsd:boolean" soapAction="" xmlns:ns14="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns14:cust_id" type="xsd:string"/>
   </ns1:operation>
-  <ns1:operation name="sold" qname="ns15:sold" returnQName="ns15:soldReturn" returnType="xsd:boolean" soapAction="" xmlns:ns15="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns15:customer_id" type="xsd:string"/>
-   <ns1:parameter qname="ns15:product_id" type="xsd:string"/>
-   <ns1:parameter qname="ns15:quantity" type="xsd:string"/>
+  <ns1:operation name="getAmount" qname="ns15:getAmount" returnQName="ns15:getAmountReturn" returnType="xsd:string" soapAction="" xmlns:ns15="http://ebay" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns15:prod_id" type="xsd:string"/>
   </ns1:operation>
-  <ns1:parameter name="allowedMethods" value="removeFromCart sold getCartAmount emptyCart addBid addToCart getProductQuanity getCart getAmount"/>
+  <ns1:parameter name="allowedMethods" value="removeFromCart sold getCartAmount emptyCart addToCart addBid getProductQuanity getCart getAmount"/>
   <ns1:parameter name="wsdlPortType" value="Trans"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="schemaQualified" value="http://ebay"/>

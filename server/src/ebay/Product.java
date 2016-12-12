@@ -36,7 +36,7 @@ public class Product
            
           preparedStmt = connect.prepareStatement(query);
           preparedStmt.setString(1, prod_id);
- 	      preparedStmt.setString   (2, customer_id);
+ 	      preparedStmt.setInt(2, Integer.parseInt(customer_id));
  	      preparedStmt.setString(3, prod_id);
 
  	     rs  = preparedStmt.executeQuery();

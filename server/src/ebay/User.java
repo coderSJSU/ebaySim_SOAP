@@ -4,13 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 
 import javax.jws.WebService;
 
+import pooling.ConnectionPool;
+
+
 @WebService
 public class User {
 	public boolean register(String firstname, String lastname, String email, String password) {
+		try {
+			ConnectionPool pool  = new ConnectionPool(100,100,"jdbc:mysql://localhost/datahub","root", "blitz","com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException | SQLException e1) {
+			System.out.println(e1.getMessage());
+		}
+		
+		
 		System.out.println("Request: " + firstname);
 		Connection connect = null;
 		PreparedStatement preparedStmt = null;
@@ -20,8 +31,9 @@ public class User {
 
 		String query = "insert into customer set first_nm =? , last_nm =? , email_id = ?, pass = ?, last_login_ts = CURRENT_TIMESTAMP";
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connect = DriverManager.getConnection("jdbc:mysql://localhost/datahub?" + "user=root&password=blitz");
+			//Class.forName("com.mysql.jdbc.Driver");
+			//connect = DriverManager.getConnection("jdbc:mysql://localhost/datahub?" + "user=root&password=blitz");
+			connect = ConnectionPool.borrowConnection();
 
 			preparedStmt = connect.prepareStatement(query);
 			preparedStmt.setString(1, firstname);
@@ -31,7 +43,7 @@ public class User {
 
 			preparedStmt.execute();
 
-			connect.close();
+			ConnectionPool.surrenderConnection(connect);
 		} catch (Exception e) {
 			return false;
 		} finally {
